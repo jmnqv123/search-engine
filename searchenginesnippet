@@ -1,0 +1,37 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+# A list to store our documents
+documents = [
+    {
+        "id": 1,
+        "title": "How to train a machine learning model",
+        "content": "Training a machine learning model involves selecting a model, choosing an optimization algorithm, and minimizing the error between the model's predictions and the ground truth labels. Here are the steps to follow: 1. Select a model and a loss function. 2. Split your data into training and validation sets. 3. Feed the training data to the model and optimize the loss function using an optimization algorithm. 4. Evaluate the model on the validation set. 5. Fine-tune the model by adjusting the hyperparameters. 6. Test the model on the test set."
+    },
+    {
+        "id": 2,
+        "title": " deep learning",
+        "content": "ai,machine learning subsets."
+    },
+    {
+        "id": 3,
+        "title": "nanotechnology",
+        "content": " nanobots"
+    }
+]
+
+@app.route('/search')
+def search():
+    # Get the search query from the URL query string
+    query = request.args.get('query')
+    # Search the documents for the query
+    results = []
+    for doc in documents:
+        if query in doc['title'] or query in doc['content']:
+            results.append(doc)
+    # Render the search results template
+    return render_template('search_results.html', query=query, results=results)
+
+if __name__ == '__main__':
+    app.run()
